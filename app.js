@@ -7,12 +7,14 @@
 // 7. Users should be able to answer the question via a tex box with a 'guess' button
 // 8. Optional: Show category info as well
 
-function addQuestion () {
+function addQuestion() {
     let request = new XMLHttpRequest();
     request.open('GET', 'http://jservice.io/api/random');
     request.addEventListener('load', function () {
         let delivery = JSON.parse(request.responseText);
         console.log(delivery);
+        let question = delivery.results[0];
+        console.log(question);
     });
 
     request.send();
@@ -20,5 +22,5 @@ function addQuestion () {
 
 window.addEventListener('load', function () {
     console.log("You done been loaded!");
-    addQuestion;
+    addQuestion();
 })
