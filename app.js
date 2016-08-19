@@ -12,15 +12,14 @@ function addQuestion() {
     request.open('GET', 'http://jservice.io/api/random');
     request.addEventListener('load', function () {
         let delivery = JSON.parse(request.responseText);
-        console.log(delivery);
         let fullQuestionInfo = delivery[0];
         console.log(fullQuestionInfo);
         let question = fullQuestionInfo.question;
-        console.log(question);
 
         let grandparent = document.querySelector('body');
         let parent = document.createElement('div');
         grandparent.appendChild(parent);
+        parent.setAttribute("id", "sucker")
         let newPElement = document.createElement('p');
         newPElement.textContent = question;
         parent.appendChild(newPElement);
@@ -33,25 +32,31 @@ function addQuestion() {
         parent.appendChild(newBElement);
         let guess = fullQuestionInfo.answer;
 
+        function clearit() {
+            let clearTheGuess = document.getElementById("sucker");
+            clearTheGuess.parentNode.removeChild(clearTheGuess);
+        }
+
         newBElement.addEventListener('click', function () {
             if (newInputElement.value === guess) {
                 let notWrong = document.createElement('h2');
                 notWrong.textContent = "You're not wrong.";
                 parent.appendChild(notWrong);
+                setTimeout(addQuestion, 2000);
+                setTimeout(clearit, 2000);
             } else {
                 let wrong = document.createElement('h2');
-                wrong.textContent = "Wrong Wrong Wrong.";
+                wrong.textContent = "Wrong Wrong Wrong, Super Wrong.";
                 parent.appendChild(wrong);
+                setTimeout(addQuestion, 2000);
+                setTimeout(clearit, 2000);                
             }
         })
-
-        
     });
 
     request.send();
 }
 
 window.addEventListener('load', function () {
-    console.log("You done been loaded!");
     addQuestion();
 })
